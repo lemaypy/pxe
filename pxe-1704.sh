@@ -37,11 +37,12 @@ function create_tftp() {
 }
 function create_tftp_dirs() {
     echo "..............create_tftp_dirs.......................... begin"
+    read -p "user: " pxeuser
     sudo mkdir -p /data
-    sudo chown $USER:$USER /data
-#    mkdir -p /data/tftpboot/i386/memtest
+    sudo chown -R $pxeuser:$pxeuser /data
     sudo mkdir -p /data/iso
     sudo mkdir -p /data/tftpboot/pxelinux.cfg
+    sudo mkdir /mnt/loop
     echo "..............create_tftp_dirs.......................... end"
 }
 function create_bootloader() {
@@ -56,7 +57,7 @@ function create_bootloader() {
 function create_nfs_server() {
     echo "..............create_nfs_server.......................... begin"
     sudo apt install -y nfs-kernel-server
-    sudo echo "/data/install "$(getSubIp)".0/24(ro,async,no_root_squash,no_subtree_check)" >> /etc/exports
+    sudo echo "/data/install "$(getSubIp)".0/24(ro,async,no_root_squash,no_subtree_check)" | sudo tee --append /etc/exports > /dev/null
     sudo exportfs -a
     echo "..............create_nfs_server.......................... end"
 }
@@ -65,19 +66,19 @@ function config_dnsmasq() {
     sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.bak
     sudo rm /etc/dnsmasq.conf
 
-    sudo echo "# Configuration file for dnsmasq." > /etc/dnsmasq.conf
-    sudo echo "port=0" >> /etc/dnsmasq.conf
-    sudo echo "log-dhcp" >> /etc/dnsmasq.conf
-    sudo echo "dhcp-range="$(getSubIp)".0,proxy" >> /etc/dnsmasq.conf
-    sudo echo "dhcp-boot=pxelinux.0" >> /etc/dnsmasq.conf
-    sudo echo "dhcp-no-override" >> /etc/dnsmasq.conf
-    sudo echo "pxe-prompt="Booting Network Client", 1" >> /etc/dnsmasq.conf
-    sudo echo "pxe-service=x86PC,\"Network Boot\",pxelinux" >> /etc/dnsmasq.conf
-    sudo echo "pxe-service=X86-64_EFI, \"Boot UEFI PXE-64\", syslinux" >> /etc/dnsmasq.conf
-    sudo echo "enable-tftp" >> /etc/dnsmasq.conf
-    sudo echo "tftp-root=/data/tftpboot" >> /etc/dnsmasq.conf
+    sudo echo "# Configuration file for dnsmasq." | sudo tee /etc/dnsmasq.conf > /dev/null
+    sudo echo "port=0" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "log-dhcp" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "dhcp-range="$(getSubIp)".0,proxy" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "dhcp-boot=pxelinux.0" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "dhcp-no-override" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "pxe-prompt="Booting Network Client", 1" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "pxe-service=x86PC,\"Network Boot\",pxelinux" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "pxe-service=X86-64_EFI, \"Boot UEFI PXE-64\", syslinux" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "enable-tftp" | sudo tee --append /etc/dnsmasq.conf > /dev/null
+    sudo echo "tftp-root=/data/tftpboot" | sudo tee --append /etc/dnsmasq.conf > /dev/null
     #quick hack to make sure our local dns on the server doesn't try to use its own dnsmasq
-    sudo echo "DNSMASQ_EXCEPT=lo" >> /etc/default/dnsmasq
+    sudo echo "DNSMASQ_EXCEPT=lo" | sudo tee --append /etc/default/dnsmasq > /dev/null
     echo "..............config_dnsmasq.......................... end"
 }
 
@@ -205,8 +206,10 @@ function install_ubuntu_distro() {
 }
 
 function add_memtest86() {
+    get_iso_sources
+
     mkdir -p /data/tftpboot/i386/memtest
-    scp /data/iso/memtest86+-5.01.bin /data/tftpboot/i386/memtest/memtest86+-5.01
+    scp ${ssh_iso_addr}:${ssh_iso_sources}/memtest86+-5.01.bin /data/tftpboot/i386/memtest/memtest86+-5.01
     echo "LABEL memtest86" >> /data/tftpboot/menu/system.cfg
     echo "    menu label memtest86+-5.01" >> /data/tftpboot/menu/system.cfg
     echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
@@ -214,16 +217,19 @@ function add_memtest86() {
 }
 
 function add_rescuecd_distro() {
+    get_iso_sources
+
     echo "LABEL rescueCD64" >> /data/tftpboot/menu/system.cfg
     echo "    menu label rescueCD-5.1---64bits" >> /data/tftpboot/menu/system.cfg
     echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
     echo "    kernel /i386/sysrescuecd/rescue64" >> /data/tftpboot/menu/system.cfg
-    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=${getIp}:/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
+    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
     echo "LABEL rescueCD32" >> /data/tftpboot/menu/system.cfg
     echo "    menu label rescueCD-5.1---32bits" >> /data/tftpboot/menu/system.cfg
     echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
     echo "    kernel /i386/sysrescuecd/rescue32" >> /data/tftpboot/menu/system.cfg
-    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=${getIp}:/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
+    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
+    scp ${ssh_iso_addr}:${ssh_iso_sources}/systemrescuecd-x86-5.1.0.iso /data/iso/systemrescuecd-x86-5.1.0.iso
     sudo mount -o loop /data/iso/systemrescuecd-x86-5.1.0.iso /mnt/loop
     sudo mkdir -p /data/install/systemrescuecd
     sudo cp /mnt/loop/sysrcd.dat /data/install/systemrescuecd
@@ -294,7 +300,7 @@ function get_distro_info(){
 
 
 function installPXE() {
-    count=99
+    count=0
     while :
     do
         if (($count == 0)); then
