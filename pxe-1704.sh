@@ -100,8 +100,8 @@ function create_pxe_config_file() {
 }
 function create_main_menu() {
     echo "..............create_main_menu.......................... begin"
-    mkdir -p /data/tftpboot/menu
-    touch /data/tftpboot/menu/common.cfg
+    sudo mkdir -p /data/tftpboot/menu
+    #sudo touch /data/tftpboot/menu/common.cfg
     #get the menu background
     wget https://i2.wp.com/www.vandewerken.com.au/blog/wp-content/uploads/2017/06/pxelinux-menu-background.png
     mv pxelinux-menu-background.png /data/tftpboot/menu/menu.png
@@ -125,7 +125,7 @@ function create_main_menu() {
 }
 function create_system_submenu() {
     echo "..............create_system_submenu.......................... begin"
-    touch /data/tftpboot/menu/system.cfg
+    #touch /data/tftpboot/menu/system.cfg
     echo "# /menu/system.cfg" > /data/tftpboot/menu/system.cfg
     echo "UI vesamenu.c32" >> /data/tftpboot/menu/system.cfg
     echo "PROMPT 0" >> /data/tftpboot/menu/system.cfg
@@ -137,7 +137,7 @@ function create_system_submenu() {
 }
 function create_ubuntu_submenu() {
     echo "..............create_ubuntu_submenu.......................... begin"
-    touch /data/tftpboot/menu/ubuntu.cfg
+   # touch /data/tftpboot/menu/ubuntu.cfg
     echo "# ubuntu server tftpboot menu" > /data/tftpboot/menu/ubuntu.cfg
     echo "UI vesamenu.c32" >> /data/tftpboot/menu/ubuntu.cfg
     echo "MENU TITLE Ubuntu Distributions" >> /data/tftpboot/menu/ubuntu.cfg
