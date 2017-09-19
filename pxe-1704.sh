@@ -43,6 +43,7 @@ function create_tftp_dirs() {
    # sudo chown -R $pxeuser:$pxeuser /data
     sudo chown -R $USER:$USER /data
     sudo mkdir -p /data/iso
+    sudo mkdir -p /data/install
     sudo mkdir -p /data/tftpboot/pxelinux.cfg
     sudo mkdir /mnt/loop
     echo "..............create_tftp_dirs.......................... end"
@@ -213,7 +214,7 @@ function add_memtest86() {
     get_iso_sources
 
     sudo mkdir -p /data/tftpboot/i386/memtest
-    scp ${ssh_iso_addr}:${ssh_iso_sources}/memtest86+-5.01.bin /data/tftpboot/i386/memtest/memtest86+-5.01
+    sudo scp ${ssh_iso_addr}:${ssh_iso_sources}/memtest86+-5.01.bin /data/tftpboot/i386/memtest/memtest86+-5.01
     sudo echo "LABEL memtest86" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "    menu label memtest86+-5.01" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
