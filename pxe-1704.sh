@@ -357,6 +357,8 @@ function installPXE() {
 ssh_iso_addr=""
 ssh_iso_sources=""
 
+sudo apt install -y dialog
+
 while :
 do
     cmd=(dialog --separate-output --checklist "Select options:" 18 56 10)
