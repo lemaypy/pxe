@@ -84,19 +84,19 @@ function config_dnsmasq() {
 
 function create_pxe_config_file() {
     echo "..............create_pxe_config_file.......................... begin"
-    touch /data/tftpboot/pxelinux.cfg/default
-    echo "# pxelinux.cfg/default." > /data/tftpboot/pxelinux.cfg/default
-    echo "UI vesamenu.c32" >> /data/tftpboot/pxelinux.cfg/default
-    echo "PROMPT 0" >> /data/tftpboot/pxelinux.cfg/default
-    echo "MENU TITLE PY PXE Linux Bootloader" >> /data/tftpboot/pxelinux.cfg/default
-    echo "INCLUDE /menu/common.cfg" >> /data/tftpboot/pxelinux.cfg/default
-    echo "LABEL System Tools" >> /data/tftpboot/pxelinux.cfg/default
-    echo "    MENU LABEL System Tools ->" >> /data/tftpboot/pxelinux.cfg/default
-    echo "    CONFIG /menu/system.cfg" >> /data/tftpboot/pxelinux.cfg/default
-    echo "LABEL Ubuntu Distributions" >> /data/tftpboot/pxelinux.cfg/default
-    echo "    MENU LABEL Ubuntu Distributions ->" >> /data/tftpboot/pxelinux.cfg/default
-    echo "    CONFIG /menu/ubuntu.cfg" >> /data/tftpboot/pxelinux.cfg/default
-    echo "..............create_pxe_config_file.......................... end"
+    sudo touch /data/tftpboot/pxelinux.cfg/default
+    sudo echo "# pxelinux.cfg/default." | sudo tee --append /data/tftpboot/pxelinux.cfg/default  > /dev/null
+    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "PROMPT 0" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "MENU TITLE PY PXE Linux Bootloader" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "LABEL System Tools" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "    MENU LABEL System Tools ->" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "    CONFIG /menu/system.cfg" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "LABEL Ubuntu Distributions" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "    MENU LABEL Ubuntu Distributions ->" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "    CONFIG /menu/ubuntu.cfg" | sudo tee --append /data/tftpboot/pxelinux.cfg/default
+    sudo echo "..............create_pxe_config_file.......................... end"
 }
 function create_main_menu() {
     echo "..............create_main_menu.......................... begin"
