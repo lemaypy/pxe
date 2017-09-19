@@ -109,46 +109,46 @@ function create_main_menu() {
     #get the menu background
     sudo wget https://i2.wp.com/www.vandewerken.com.au/blog/wp-content/uploads/2017/06/pxelinux-menu-background.png
     sudo mv pxelinux-menu-background.png /data/tftpboot/menu/menu.png
-    sudo echo "# Menu common parts:" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU BACKGROUND /menu/menu.png" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU TABMSG  http://www.vandewerken.com.au/blog/" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU WIDTH 72" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU MARGIN 10" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU VSHIFT 3" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU HSHIFT 6" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU ROWS 15" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU TABMSGROW 20" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "MENU TIMEOUTROW 22" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "menu color title 1;36;44 #66A0FF #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "menu color hotsel 30;47 #C00000 #DDDDDDDD" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "menu color sel 30;47 #000000 #FFFFFFFF" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "menu color border 30;44    #D00000 #00000000 std" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "menu color scrollbar 30;44 #DDDDDDDD #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg
-    sudo echo "# end include" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "# Menu common parts:" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU BACKGROUND /menu/menu.png" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU TABMSG  http://www.vandewerken.com.au/blog/" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU WIDTH 72" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU MARGIN 10" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU VSHIFT 3" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU HSHIFT 6" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU ROWS 15" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU TABMSGROW 20" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "MENU TIMEOUTROW 22" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "menu color title 1;36;44 #66A0FF #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "menu color hotsel 30;47 #C00000 #DDDDDDDD" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "menu color sel 30;47 #000000 #FFFFFFFF" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "menu color border 30;44    #D00000 #00000000 std" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "menu color scrollbar 30;44 #DDDDDDDD #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
+    sudo echo "# end include" | sudo tee --append /data/tftpboot/menu/common.cfg > /dev/null
     sudo echo "..............create_main_menu.......................... end"
 }
 function create_system_submenu() {
     echo "..............create_system_submenu.......................... begin"
     sudo touch /data/tftpboot/menu/system.cfg
-    sudo echo "# /menu/system.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "PROMPT 0" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "MENU TITLE PY PXE Linux Bootloader" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "    CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/system.cfg
-    sudo echo "    MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "# /menu/system.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "PROMPT 0" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "MENU TITLE PY PXE Linux Bootloader" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "    CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    sudo echo "    MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
 }
 function create_ubuntu_submenu() {
     echo "..............create_ubuntu_submenu.......................... begin"
     sudo touch /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "# ubuntu server tftpboot menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "MENU TITLE Ubuntu Distributions" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "  CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
-    sudo echo "  MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "# ubuntu server tftpboot menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "MENU TITLE Ubuntu Distributions" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "  CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    sudo echo "  MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
 }
 
 
@@ -173,19 +173,19 @@ function add_distro_to_ubuntu_menu() {
     type=$4
 
     #echo "append server receives ${flavor}-${dist}-${type}-${arch}"
-    echo "#start ${flavor}-${dist}-${type}-${arch}" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "LABEL ${flavor}-${dist}-${type}-${arch}" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "  MENU LABEL ${flavor}-${dist}-${type}-${arch}" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "  KERNEL ${flavor}/${dist}/${arch}/vmlinuz" >> /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "#start ${flavor}-${dist}-${type}-${arch}" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "LABEL ${flavor}-${dist}-${type}-${arch}" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "  MENU LABEL ${flavor}-${dist}-${type}-${arch}" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "  KERNEL ${flavor}/${dist}/${arch}/vmlinuz" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
     if [ "${type}" = "desktop" ]; then
-      echo "  APPEND boot=casper netboot=nfs nfsroot="$(getIp)":/data/install/${flavor}/${dist}/${arch} initrd=${flavor}/${dist}/${arch}/initrd.lz" >> /data/tftpboot/menu/ubuntu.cfg
+      sudo echo "  APPEND boot=casper netboot=nfs nfsroot="$(getIp)":/data/install/${flavor}/${dist}/${arch} initrd=${flavor}/${dist}/${arch}/initrd.lz" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
     else
-      echo "  APPEND boot=casper netboot=nfs nfsroot="$(getIp)":/data/install/${flavor}/${dist}/${arch} initrd=${flavor}/${dist}/${arch}/initrd.gz" >> /data/tftpboot/menu/ubuntu.cfg
+      sudo echo "  APPEND boot=casper netboot=nfs nfsroot="$(getIp)":/data/install/${flavor}/${dist}/${arch} initrd=${flavor}/${dist}/${arch}/initrd.gz" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
     fi
-    echo "  TEXT HELP" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "    Netboot ${flavor} ${type} ${dist} ${arch} DVD" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "  ENDTEXT" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "#end ${flavor}-${dist}-${type}-${arch}" >> /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "  TEXT HELP" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "    Netboot ${flavor} ${type} ${dist} ${arch} DVD" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "  ENDTEXT" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
+    sudo echo "#end ${flavor}-${dist}-${type}-${arch}" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg /dev/null
 
 }
 function install_ubuntu_distro() {
@@ -212,27 +212,27 @@ function install_ubuntu_distro() {
 function add_memtest86() {
     get_iso_sources
 
-    mkdir -p /data/tftpboot/i386/memtest
+    sudo mkdir -p /data/tftpboot/i386/memtest
     scp ${ssh_iso_addr}:${ssh_iso_sources}/memtest86+-5.01.bin /data/tftpboot/i386/memtest/memtest86+-5.01
-    echo "LABEL memtest86" >> /data/tftpboot/menu/system.cfg
-    echo "    menu label memtest86+-5.01" >> /data/tftpboot/menu/system.cfg
-    echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
-    echo "    kernel /i386/memtest/memtest86+-5.01" >> /data/tftpboot/menu/system.cfg
+    sudo echo "LABEL memtest86" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu label memtest86+-5.01" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    kernel /i386/memtest/memtest86+-5.01" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
 }
 
 function add_rescuecd_distro() {
     get_iso_sources
 
-    echo "LABEL rescueCD64" >> /data/tftpboot/menu/system.cfg
-    echo "    menu label rescueCD-5.1---64bits" >> /data/tftpboot/menu/system.cfg
-    echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
-    echo "    kernel /i386/sysrescuecd/rescue64" >> /data/tftpboot/menu/system.cfg
-    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
-    echo "LABEL rescueCD32" >> /data/tftpboot/menu/system.cfg
-    echo "    menu label rescueCD-5.1---32bits" >> /data/tftpboot/menu/system.cfg
-    echo "    menu indent 1" >> /data/tftpboot/menu/system.cfg
-    echo "    kernel /i386/sysrescuecd/rescue32" >> /data/tftpboot/menu/system.cfg
-    echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" >> /data/tftpboot/menu/system.cfg
+    sudo echo "LABEL rescueCD64" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu label rescueCD-5.1---64bits" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    kernel /i386/sysrescuecd/rescue64" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "LABEL rescueCD32" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu label rescueCD-5.1---32bits" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "    kernel /i386/sysrescuecd/rescue32" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     scp ${ssh_iso_addr}:${ssh_iso_sources}/systemrescuecd-x86-5.1.0.iso /data/iso/systemrescuecd-x86-5.1.0.iso
     sudo mount -o loop /data/iso/systemrescuecd-x86-5.1.0.iso /mnt/loop
     sudo mkdir -p /data/install/systemrescuecd
@@ -357,6 +357,7 @@ echo "user is:"$USER
         fi
 
     done
+    sudo service dnsmasq start
 }
 ssh_iso_addr=""
 ssh_iso_sources=""
