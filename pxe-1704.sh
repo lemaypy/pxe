@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #install pxe server on ubuntu 17.04
+count=0
 
 function getIp() {
     echo $(hostname -I | awk '{ print $1 }')
@@ -26,7 +27,7 @@ function updateOS() {
 }
 function installPackages() {
     echo "..............installPackages.......................... begin"
-    sudo apt install -y dnsmasq pxelinux syslinux-common dialog
+    sudo apt install -y dnsmasq pxelinux syslinux-common
     echo "..............installPackages.......................... end"
 }
 function create_tftp() {
@@ -37,9 +38,10 @@ function create_tftp() {
 }
 function create_tftp_dirs() {
     echo "..............create_tftp_dirs.......................... begin"
-    read -p "user: " pxeuser
+ #   read -p "user: " pxeuser
     sudo mkdir -p /data
-    sudo chown -R $pxeuser:$pxeuser /data
+   # sudo chown -R $pxeuser:$pxeuser /data
+    sudo chown -R $USER:$USER /data
     sudo mkdir -p /data/iso
     sudo mkdir -p /data/tftpboot/pxelinux.cfg
     sudo mkdir /mnt/loop
@@ -80,6 +82,8 @@ function config_dnsmasq() {
     #quick hack to make sure our local dns on the server doesn't try to use its own dnsmasq
     sudo echo "DNSMASQ_EXCEPT=lo" | sudo tee --append /etc/default/dnsmasq > /dev/null
     echo "..............config_dnsmasq.......................... end"
+
+    sudo service dnsmasq start
 }
 
 function create_pxe_config_file() {
@@ -300,7 +304,7 @@ function get_distro_info(){
 
 
 function installPXE() {
-    count=0
+echo "user is:"$USER
     while :
     do
         if (($count == 0)); then
