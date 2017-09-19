@@ -101,50 +101,50 @@ function create_pxe_config_file() {
 function create_main_menu() {
     echo "..............create_main_menu.......................... begin"
     sudo mkdir -p /data/tftpboot/menu
-    #sudo touch /data/tftpboot/menu/common.cfg
+    sudo touch /data/tftpboot/menu/common.cfg
     #get the menu background
-    wget https://i2.wp.com/www.vandewerken.com.au/blog/wp-content/uploads/2017/06/pxelinux-menu-background.png
-    mv pxelinux-menu-background.png /data/tftpboot/menu/menu.png
-    echo "# Menu common parts:" > /data/tftpboot/menu/common.cfg
-    echo "MENU BACKGROUND /menu/menu.png" >> /data/tftpboot/menu/common.cfg
-    echo "MENU TABMSG  http://www.vandewerken.com.au/blog/" >> /data/tftpboot/menu/common.cfg
-    echo "MENU WIDTH 72" >> /data/tftpboot/menu/common.cfg
-    echo "MENU MARGIN 10" >> /data/tftpboot/menu/common.cfg
-    echo "MENU VSHIFT 3" >> /data/tftpboot/menu/common.cfg
-    echo "MENU HSHIFT 6" >> /data/tftpboot/menu/common.cfg
-    echo "MENU ROWS 15" >> /data/tftpboot/menu/common.cfg
-    echo "MENU TABMSGROW 20" >> /data/tftpboot/menu/common.cfg
-    echo "MENU TIMEOUTROW 22" >> /data/tftpboot/menu/common.cfg
-    echo "menu color title 1;36;44 #66A0FF #00000000 none" >> /data/tftpboot/menu/common.cfg
-    echo "menu color hotsel 30;47 #C00000 #DDDDDDDD" >> /data/tftpboot/menu/common.cfg
-    echo "menu color sel 30;47 #000000 #FFFFFFFF" >> /data/tftpboot/menu/common.cfg
-    echo "menu color border 30;44    #D00000 #00000000 std" >> /data/tftpboot/menu/common.cfg
-    echo "menu color scrollbar 30;44 #DDDDDDDD #00000000 none" >> /data/tftpboot/menu/common.cfg
-    echo "# end include" >> /data/tftpboot/menu/common.cfg
-    echo "..............create_main_menu.......................... end"
+    sudo wget https://i2.wp.com/www.vandewerken.com.au/blog/wp-content/uploads/2017/06/pxelinux-menu-background.png
+    sudo mv pxelinux-menu-background.png /data/tftpboot/menu/menu.png
+    sudo echo "# Menu common parts:" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU BACKGROUND /menu/menu.png" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU TABMSG  http://www.vandewerken.com.au/blog/" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU WIDTH 72" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU MARGIN 10" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU VSHIFT 3" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU HSHIFT 6" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU ROWS 15" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU TABMSGROW 20" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "MENU TIMEOUTROW 22" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "menu color title 1;36;44 #66A0FF #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "menu color hotsel 30;47 #C00000 #DDDDDDDD" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "menu color sel 30;47 #000000 #FFFFFFFF" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "menu color border 30;44    #D00000 #00000000 std" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "menu color scrollbar 30;44 #DDDDDDDD #00000000 none" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "# end include" | sudo tee --append /data/tftpboot/menu/common.cfg
+    sudo echo "..............create_main_menu.......................... end"
 }
 function create_system_submenu() {
     echo "..............create_system_submenu.......................... begin"
-    #touch /data/tftpboot/menu/system.cfg
-    echo "# /menu/system.cfg" > /data/tftpboot/menu/system.cfg
-    echo "UI vesamenu.c32" >> /data/tftpboot/menu/system.cfg
-    echo "PROMPT 0" >> /data/tftpboot/menu/system.cfg
-    echo "MENU TITLE PY PXE Linux Bootloader" >> /data/tftpboot/menu/system.cfg
-    echo "INCLUDE /menu/common.cfg" >> /data/tftpboot/menu/system.cfg
-    echo "LABEL <-- Back to Main Menu" >> /data/tftpboot/menu/system.cfg
-    echo "    CONFIG /pxelinux.cfg/default" >> /data/tftpboot/menu/system.cfg
-    echo "    MENU SEPARATOR" >> /data/tftpboot/menu/system.cfg
+    sudo touch /data/tftpboot/menu/system.cfg
+    sudo echo "# /menu/system.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "PROMPT 0" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "MENU TITLE PY PXE Linux Bootloader" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "    CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/system.cfg
+    sudo echo "    MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/system.cfg
 }
 function create_ubuntu_submenu() {
     echo "..............create_ubuntu_submenu.......................... begin"
-   # touch /data/tftpboot/menu/ubuntu.cfg
-    echo "# ubuntu server tftpboot menu" > /data/tftpboot/menu/ubuntu.cfg
-    echo "UI vesamenu.c32" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "MENU TITLE Ubuntu Distributions" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "INCLUDE /menu/common.cfg" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "LABEL <-- Back to Main Menu" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "  CONFIG /pxelinux.cfg/default" >> /data/tftpboot/menu/ubuntu.cfg
-    echo "  MENU SEPARATOR" >> /data/tftpboot/menu/ubuntu.cfg
+    sudo touch /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "# ubuntu server tftpboot menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "UI vesamenu.c32" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "MENU TITLE Ubuntu Distributions" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "INCLUDE /menu/common.cfg" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "  CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
+    sudo echo "  MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg
 }
 
 
