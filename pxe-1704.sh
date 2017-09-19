@@ -26,7 +26,7 @@ function updateOS() {
 }
 function installPackages() {
     echo "..............installPackages.......................... begin"
-    sudo apt install -y dnsmasq pxelinux syslinux-common
+    sudo apt install -y dnsmasq pxelinux syslinux-common dialog
     echo "..............installPackages.......................... end"
 }
 function create_tftp() {
