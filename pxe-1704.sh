@@ -219,6 +219,7 @@ function add_memtest86() {
     sudo echo "    menu label memtest86+-5.01" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "    kernel /i386/memtest/memtest86+-5.01" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
+    sudo service dnsmasq restart
 }
 
 function add_rescuecd_distro() {
@@ -234,7 +235,7 @@ function add_rescuecd_distro() {
     sudo echo "    menu indent 1" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "    kernel /i386/sysrescuecd/rescue32" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
     sudo echo "append initrd=i386/sysrescuecd/initram.igz nfsboot=$(getIp):/data/install/systemrescuecd" | sudo tee --append /data/tftpboot/menu/system.cfg /dev/null
-    scp ${ssh_iso_addr}:${ssh_iso_sources}/systemrescuecd-x86-5.1.0.iso /data/iso/systemrescuecd-x86-5.1.0.iso
+    sudo scp ${ssh_iso_addr}:${ssh_iso_sources}/systemrescuecd-x86-5.1.0.iso /data/iso/systemrescuecd-x86-5.1.0.iso
     sudo mount -o loop /data/iso/systemrescuecd-x86-5.1.0.iso /mnt/loop
     sudo mkdir -p /data/install/systemrescuecd
     sudo cp /mnt/loop/sysrcd.dat /data/install/systemrescuecd
@@ -244,7 +245,8 @@ function add_rescuecd_distro() {
     sudo cp /mnt/loop/isolinux/rescue64 /data/tftpboot/i386/sysrescuecd
     sudo cp /mnt/loop/isolinux/initram.igz /data/tftpboot/i386/sysrescuecd
     sudo umount /mnt/loop
-    sleep 3
+    sudo service dnsmasq restart
+    sleep 2
 }
 function dynamic_ubuntu_dialog() {
     declare -A distro_info
@@ -271,7 +273,8 @@ function dynamic_ubuntu_dialog() {
 
     # display values just entered
     #echo "$VALUES"
-    add_ubuntu_distro ${VALUES[1]} ${VALUES[2]} ${VALUES[3]} ${VALUES[4]} ${VALUES[0]} 
+    add_ubuntu_distro ${VALUES[1]} ${VALUES[2]} ${VALUES[3]} ${VALUES[4]} ${VALUES[0]}
+    sudo service dnsmasq restart 
 }
 
 function get_distro_info(){
