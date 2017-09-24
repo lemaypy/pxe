@@ -139,6 +139,7 @@ function create_system_submenu() {
     sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
     sudo echo "    CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
     sudo echo "    MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/system.cfg > /dev/null
+    echo "..............create_system_submenu.......................... end"
 }
 function create_ubuntu_submenu() {
     echo "..............create_ubuntu_submenu.......................... begin"
@@ -150,6 +151,7 @@ function create_ubuntu_submenu() {
     sudo echo "LABEL <-- Back to Main Menu" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
     sudo echo "  CONFIG /pxelinux.cfg/default" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
     sudo echo "  MENU SEPARATOR" | sudo tee --append /data/tftpboot/menu/ubuntu.cfg > /dev/null
+    echo "..............create_ubuntu_submenu.......................... end"
 }
 
 
@@ -159,7 +161,6 @@ function add_ubuntu_distro() {
     arch=$3
     type=$4
     iso=$5
-
     
     sudo mkdir -p /data/tftpboot/$flavor/$dist/$arch
     sudo mkdir -p /data/install/$flavor/$dist/$arch
@@ -196,6 +197,7 @@ function install_ubuntu_distro() {
     type=$4
     iso=$5
 
+    sudo scp ${ssh_iso_addr}:${ssh_iso_sources}/${iso} /data/iso/
     sudo mount -o loop /data/iso/${iso} /mnt/loop
     if [ "${type}" = "desktop" ]; then
         sudo cp /mnt/loop/casper/vmlinuz* /data/tftpboot/${flavor}/${dist}/${arch}/vmlinuz
@@ -204,8 +206,8 @@ function install_ubuntu_distro() {
         sudo cp /mnt/loop/install/vmlinuz /data/tftpboot/${flavor}/${dist}/${arch}
         sudo cp /mnt/loop/install/netboot/ubuntu-installer/${arch}/initrd.gz /data/tftpboot/${flavor}/${dist}/${arch}
     fi
-    cp -R /mnt/loop/* /data/install/${flavor}/${dist}/${arch}
-    cp -R /mnt/loop/.disk /data/install/${flavor}/${dist}/${arch}
+    sudo cp -R /mnt/loop/* /data/install/${flavor}/${dist}/${arch}
+    sudo cp -R /mnt/loop/.disk /data/install/${flavor}/${dist}/${arch}
     sudo umount /mnt/loop
     sleep 3
 }
@@ -249,32 +251,56 @@ function add_rescuecd_distro() {
     sleep 2
 }
 function dynamic_ubuntu_dialog() {
+# Define the dialog exit status codes
+: ${DIALOG_OK=0}
+: ${DIALOG_CANCEL=1}
+: ${DIALOG_HELP=2}
+: ${DIALOG_EXTRA=3}
+: ${DIALOG_ITEM_HELP=4}
+: ${DIALOG_ESC=255}
+
+
     declare -A distro_info
+    declare out_ret_value
 
     get_iso_sources
     get_distro_info
-
-    # open fd
-    exec 3>&1
-
-    VALUES=$(dialog --ok-label "Add image" \
-	        --backtitle "Add ubuntu distro" \
-	        --title "Distro infos" \
-	        --form "Adjust to fit your needs" \
-            15 50 0 \
-	        "iso:"      1 1	"${distro_info["iso"]}" 	1 10 60 0 \
-	        "flavor:"   2 1	"${distro_info["flavor"]}" 	2 10 10 0 \
-	        "dist:"     3 1	"${distro_info["dist"]}"  	3 10 10 0 \
-	        "arch:"     4 1	"${distro_info["arch"]}"  	4 10 10 0 \
-	        "type:"     5 1	"${distro_info["type"]}" 	5 10 10 0 \
+ 
+    exec 3>&1   #<---------------------------------------- open fd
+    vals=$(dialog --ok-label "Add image" \
+                --backtitle "Add ubuntu distro" \
+                --title "Distro infos" \
+                --form "Adjust to fit your needs" \
+                15 50 0 \
+                "iso:"      1 1 "${distro_info["iso"]}"         1 10 60 0 \
+                "flavor:"   2 1 "${distro_info["flavor"]}"      2 10 10 0 \
+                "dist:"     3 1 "${distro_info["dist"]}"        3 10 10 0 \
+                "arch:"     4 1 "${distro_info["arch"]}"        4 10 10 0 \
+                "type:"     5 1 "${distro_info["type"]}"        5 10 10 0 \
             2>&1 1>&3)
-    # close fd
-    exec 3>&-
+    out_ret_value=$?
+    exec 3>&- #<---------------------------------------- close fd
 
-    # display values just entered
-    #echo "$VALUES"
-    add_ubuntu_distro ${VALUES[1]} ${VALUES[2]} ${VALUES[3]} ${VALUES[4]} ${VALUES[0]}
-    sudo service dnsmasq restart 
+    case $out_ret_value in
+        $DIALOG_OK)
+            valls=$(echo $vals)
+            read distro_info["iso"] distro_info["flavor"] distro_info["dist"] distro_info["arch"] distro_info["type"] <<< "${valls}"
+            add_ubuntu_distro ${distro_info["flavor"]} ${distro_info["dist"]} ${distro_info["arch"]} ${distro_info["type"]} ${distro_info["iso"]}
+            sudo service dnsmasq restart
+            ;; 
+        $DIALOG_CANCEL)
+            echo "Cancel pressed."
+            ;;
+        $DIALOG_ESC)
+            echo "ESC pressed."
+            ;;
+        # $DIALOG_HELP)
+            #   echo "Help pressed.";;
+        # $DIALOG_EXTRA)
+            #  echo "Extra button pressed.";;
+        # $DIALOG_ITEM_HELP)
+            #  echo "Item-help button pressed.";;
+    esac
 }
 
 function get_distro_info(){
